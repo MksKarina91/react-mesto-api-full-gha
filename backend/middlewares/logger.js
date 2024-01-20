@@ -3,25 +3,16 @@ const expressWinston = require('express-winston');
 
 const requestLogger = expressWinston.logger({
   transports: [
-    new winston.transports.File({ filename: 'request.log', level: 'info' }),
+    new winston.transports.File({ filename: 'logs/request.log', level: 'info' }),
   ],
-  format: winston.format.combine(
-    winston.format.json(),
-    winston.format.prettyPrint(),
-  ),
-  expressFormat: true,
-  colorize: false,
+  format: winston.format.json(),
 });
 
 const errorLogger = expressWinston.errorLogger({
   transports: [
-    new winston.transports.File({ filename: 'error.log', level: 'error' }),
+    new winston.transports.File({ filename: 'logs/error.log', level: 'error' }),
   ],
-  format: winston.format.combine(
-    winston.format.json(),
-    winston.format.prettyPrint(),
-  ),
-  handleExceptions: true,
+  format: winston.format.json(),
 });
 
 module.exports = {
