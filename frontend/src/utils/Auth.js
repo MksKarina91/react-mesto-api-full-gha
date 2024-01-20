@@ -11,25 +11,28 @@ function checkError(res) {
   return Promise.reject(`Ошибка: ${res.status}`);
 }
 
-export const register = (email, password) => {
-  return fetch(`${BASE_URL}/signup`, {
-    method: "POST",
-    headers,
-    body: JSON.stringify({ email, password }),
-  }).then(checkError);
+export const register = async (email, password) => {
+  const res = await fetch(`${BASE_URL}/signup`, {
+        method: "POST",
+        headers,
+        body: JSON.stringify({ email, password }),
+    });
+    return checkError(res);
 };
 
-export const autorize = (email, password) => {
-  return fetch(`${BASE_URL}/signin`, {
-    method: "POST",
-    headers,
-    body: JSON.stringify({ email, password }),
-  }).then(checkError);
+export const authorize = async (email, password) => {
+  const res = await fetch(`${BASE_URL}/signin`, {
+        method: "POST",
+        headers,
+        body: JSON.stringify({ email, password }),
+    });
+    return checkError(res);
 };
 
-export const getContent = (token) => {
-  return fetch(`${BASE_URL}/users/me`, {
-    method: "GET",
-    headers: { ...headers, Authorization: `Bearer ${token}` },
-  }).then(checkError);
+export const getContent = async (token) => {
+  const res = await fetch(`${BASE_URL}/users/me`, {
+        method: "GET",
+        headers: { ...headers, "Authorization": `Bearer ${token}` },
+    });
+    return checkError(res);
 };

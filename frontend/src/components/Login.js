@@ -30,7 +30,7 @@ const Login = ({
       }
 
       auth
-        .autorize(email, password)
+        .authorize(email, password)
         .then((res) => {
           if (res && res.token) {
             handleLogin(res);

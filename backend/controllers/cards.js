@@ -36,6 +36,7 @@ module.exports.deleteCard = async (req, res, next) => {
       throw new ForbiddenError('Нет прав на удаление карточки');
     }
 
+    // eslint-disable-next-line no-underscore-dangle
     await Card.deleteOne({ _id: card._id });
     res.send({ message: 'Карточка удалена' });
   } catch (err) {
@@ -52,7 +53,7 @@ module.exports.likeCard = async (req, res, next) => {
     const card = await Card.findByIdAndUpdate(
       req.params.cardId,
       { $addToSet: { likes: req.user._id } },
-      { new: true }
+      { new: true },
     ).orFail(() => new NotFoundError('Карточка не найдена'));
 
     res.status(OK).send(card);
@@ -70,7 +71,7 @@ module.exports.dislikeCard = async (req, res, next) => {
     const card = await Card.findByIdAndUpdate(
       req.params.cardId,
       { $pull: { likes: req.user._id } },
-      { new: true }
+      { new: true },
     ).orFail(() => new NotFoundError('Карточка не найдена'));
 
     res.status(OK).send(card);

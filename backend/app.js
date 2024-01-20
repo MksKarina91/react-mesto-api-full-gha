@@ -37,6 +37,7 @@ app.use('*', (req, res, next) => {
 app.use(errorLogger);
 app.use(errors());
 const errorHandler = require('./middlewares/error-handler');
+
 app.use(errorHandler);
 
 app.listen(PORT, () => {

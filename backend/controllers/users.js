@@ -15,7 +15,9 @@ module.exports.addUser = async (req, res, next) => {
     const user = await User.create({
       name, about, avatar, email, password: hash,
     });
-    res.status(CREATED).send({ name: user.name, about: user.about, avatar: user.avatar, email: user.email, _id: user._id });
+    res.status(CREATED).send({
+      name: user.name, about: user.about, avatar: user.avatar, email: user.email, _id: user._id
+    });
   } catch (err) {
     if (err.code === 11000) {
       next(new ConflictError('Пользователь с указанным email уже зарегистрирован'));
@@ -68,7 +70,7 @@ module.exports.updateUser = async (req, res, next) => {
     const user = await User.findByIdAndUpdate(
       req.user._id,
       { name, about },
-      { new: true, runValidators: true }
+      { new: true, runValidators: true },
     ).orFail(() => new NotFoundError('Пользователь по указанному id не найден'));
     res.status(OK).send(user);
   } catch (err) {
@@ -86,7 +88,7 @@ module.exports.updateAvatar = async (req, res, next) => {
     const user = await User.findByIdAndUpdate(
       req.user._id,
       { avatar },
-      { new: true, runValidators: true }
+      { new: true, runValidators: true },
     ).orFail(() => new NotFoundError('Пользователь по указанному id не найден'));
     res.status(OK).send(user);
   } catch (err) {
@@ -106,4 +108,3 @@ module.exports.getCurrentUser = async (req, res, next) => {
     next(err);
   }
 };
-
