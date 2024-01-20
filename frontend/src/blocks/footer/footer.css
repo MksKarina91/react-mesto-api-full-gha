@@ -1,18 +1,16 @@
 .footer {
-    display: flex;
-    margin: 67px auto 60px;
-    max-width: 880px;
-
+  max-width: 880px;
+  color: #545454;
+  margin: 0 auto;
 }
 
-@media screen and (max-width: 1023px) {
-    .footer {
-        margin: 48px 45px 36px;
-    }
+@media screen and (max-width: 960px) {
+  .footer {
+    max-width: 600px;
+  }
 }
-
-@media screen and (max-width: 767px) {
-    .footer {
-        margin: 48px 19px 36px;
-    }
+@media screen and (max-width: 650px) {
+  .footer {
+    max-width: 282px;
+  }
 }

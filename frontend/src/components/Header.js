@@ -1,33 +1,44 @@
-import React from 'react';
-import logo from '../images/header_logo.svg';
-import { Link, Route, Routes } from 'react-router-dom';
-import BurgerMenu from './BurgerMenu';
+import { Link, Route, Routes } from "react-router-dom";
+import logo from "../img/logo.svg";
 
-function Header(props) {
-    const { email, onSignOut, loggedIn } = props;
-
-    return (
-        <header className="header">
-            <img src={logo} alt="Логотип шапка" className="header__logo"></img>
-            {loggedIn && <BurgerMenu />}
-            <div className='header__userBlock'>
-                {loggedIn && <p className='header__email'>{email}</p>}
-                {loggedIn && <button onClick={onSignOut} className='header__logout'>Выйти</button>}
-            </div>
-            <Routes>
-                <Route exact path=':sign-in'
-                    element={
-                        <Link to='/sign-up' className='header__link'>Регистрация</Link>
-                    }
-                />
-                <Route exact path=':sign-up'
-                    element={
-                        <Link to='/sign-in' className='header__link'>Войти</Link>
-                    }
-                />
-            </Routes>
-        </header>
-    );
+function Header({ userData, logOut }) {
+  return (
+    <header className="header">
+      <img src={logo} className="header__logo" alt="логотип Место" />
+      <Routes>
+        <Route
+          path="/sign-in"
+          element={
+            <Link className="button header__button" to="/sign-up">
+              Регистрация
+            </Link>
+          }
+        />
+        <Route
+          path="/sign-up"
+          element={
+            <Link className="button header__button" to="/sign-in">
+              Войти
+            </Link>
+          }
+        />
+        <Route
+          path="/"
+          element={
+            <>
+              <p className="header__email">{userData.email}</p>
+              <button
+                className='button header__button header__button_inactive'
+                onClick={logOut}
+              >
+                Выйти
+              </button>
+            </>
+          }
+        />
+      </Routes>
+    </header>
+  );
 }
 
 export default Header;

@@ -1,92 +1,51 @@
-import React, { useState, useCallback } from "react";
-import { useNavigate } from "react-router-dom";
-import * as auth from "../utils/Auth";
+import { useState } from "react";
 
-const Login = ({
-  handleLogin,
-  setInfoTooltipPopupOpen,
-  setTooltipSuccess,
-  setUserEmail,
-}) => {
-  const [formValue, setFormValue] = useState({ email: "", password: "" });
-  const [errorMessage, setErrorMessage] = useState("");
-  const navigate = useNavigate();
+export default function Login({ onLogin }) {
+  const [userData, setUserData] = useState({});
 
-  const handleChange = useCallback((e) => {
-    const { name, value } = e.target;
-    setFormValue((prevState) => ({ ...prevState, [name]: value }));
-  }, []);
+  function handleInputChange(evt) {
+    const { name, value } = evt.target;
+    setUserData({
+      ...userData,
+      [name]: value
+    })
+  }
 
-  const handleSubmit = useCallback(
-    (e) => {
-      e.preventDefault();
-      const { email, password } = formValue;
-
-      if (!email || !password) {
-        setErrorMessage("Необходимо заполнить все поля");
-        setTooltipSuccess(false);
-        setInfoTooltipPopupOpen(true);
-        return;
-      }
-
-      auth
-        .authorize(email, password)
-        .then((res) => {
-          if (res && res.token) {
-            handleLogin(res);
-            setUserEmail(email);
-            navigate("/");
-          }
-        })
-        .catch((err) => {
-          if (err.statusCode === 400) {
-            setErrorMessage("Не передано одно из полей");
-          } else if (err.statusCode === 401) {
-            setErrorMessage("Пользователь с email не найден");
-          }
-          setTooltipSuccess(false);
-          setInfoTooltipPopupOpen(true);
-        });
-    },
-    [
-      formValue,
-      navigate,
-      handleLogin,
-      setUserEmail,
-      setTooltipSuccess,
-      setInfoTooltipPopupOpen,
-    ]
-  );
+  function handleSubmit(evt) {
+    evt.preventDefault();
+    const {email, password} = userData;
+    if (!email || !password) {
+      return
+    }
+    onLogin(userData);
+  }
 
   return (
     <>
-      <div className="login">
-        <p className="login__title">Вход</p>
-        {errorMessage && <p className="login__error">{errorMessage}</p>}
-        <form className="login__form" onSubmit={handleSubmit}>
+      <div className="auth__container">
+        <h2 className="auth__title">Вход</h2>
+        <form className="auth__form" onSubmit={handleSubmit} noValidate>
           <input
-            onChange={handleChange}
-            value={formValue.email}
-            className="login__input"
-            type="email"
             name="email"
+            className="auth__input"
+            type="email"
             placeholder="Email"
-            required
+            value={userData.email || ''}
+            onChange={handleInputChange}
           />
           <input
-            onChange={handleChange}
-            value={formValue.password}
-            className="login__input"
-            type="password"
             name="password"
+            className="auth__input"
+            type="password"
             placeholder="Пароль"
-            required
+            value={userData.password || ''}
+            onChange={handleInputChange}
           />
-          <button className="login__button">Войти</button>
+          <button className="button auth__submit-button" type="submit">
+            Войти
+          </button>
         </form>
       </div>
     </>
   );
-};
-
-export default Login;
+}

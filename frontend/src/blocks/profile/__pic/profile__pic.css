@@ -1,0 +1,10 @@
+.profile__pic {
+  width: 120px;
+  min-width: 120px;
+  height: 120px;
+  margin: 0;
+  border-radius: 50%;
+  object-fit: cover;
+  object-position: center;
+  overflow: hidden;
+}

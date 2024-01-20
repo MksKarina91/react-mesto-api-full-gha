@@ -1,3 +1,13 @@
-const Created = 201;
+const NoPermissionError = require('./NoPermissionError');
+const UnauthorizedError = require('./UnauthorizedError');
+const InaccurateDataError = require('./InaccurateDataError');
+const ConflictError = require('./ConflictError');
+const NotFoundError = require('./NotFoundError');
 
-module.exports = Created;
+module.exports = {
+  NoPermissionError,
+  UnauthorizedError,
+  InaccurateDataError,
+  ConflictError,
+  NotFoundError,
+};

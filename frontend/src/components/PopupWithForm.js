@@ -1,40 +1,36 @@
 function PopupWithForm({
   name,
   title,
-  children,
   isOpen,
   onClose,
+  children,
+  buttonTitle,
+
   onSubmit,
-  buttonName,
 }) {
-  const handleClickOutside = (e) => {
-    if (e.target === e.currentTarget) {
-      onClose();
-    }
-  };
 
   return (
-    <div
-      className={`popup popup-${name} ${isOpen ? "popup_opened" : ""}`}
-      onClick={handleClickOutside}
-    >
+    <div className={`popup popup_type_${name} ${isOpen ? "popup_opened" : ""}`}>
       <div className="popup__container">
         <button
+          className="button popup__close-button"
+          aria-label="Close"
           type="button"
-          className="popup__close-btn"
           onClick={onClose}
-          aria-label="Закрыть"
         ></button>
+        <h2 className="popup__title">{title}</h2>
         <form
+          className="popup__form popup__form_type_add"
+          name={`${name}-form`}
+          noValidate
           onSubmit={onSubmit}
-          className="popup__content popup__edit-form"
-          name={`${name}Form`}
-          method="post"
         >
-          <h2 className="popup__title">{title}</h2>
           {children}
-          <button className="popup__save-btn" type="submit">
-            {buttonName}
+          <button
+            type="submit"
+            className={`popup__save-button`}
+          >
+            {buttonTitle}
           </button>
         </form>
       </div>

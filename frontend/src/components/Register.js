@@ -1,75 +1,55 @@
-import React, { useState, useCallback } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import * as auth from "../utils/Auth";
+import { useState } from "react";
+import { Link } from "react-router-dom";
 
-const Register = ({ setTooltipSuccess, setInfoTooltipPopupOpen }) => {
-  const navigate = useNavigate();
-  const [formValue, setFormValue] = useState({ email: "", password: "" });
-  const [error, setError] = useState("");
+export default function Register({ onRegister }) {
+  const [userData, setUserData] = useState({});
 
-  const handleChange = useCallback((e) => {
-    const { name, value } = e.target;
-    setFormValue((prev) => ({ ...prev, [name]: value }));
-  }, []);
+  function handleSubmit(evt) {
+    evt.preventDefault();
+    const { email, password } = userData;
+    if (!email || !password) {
+      return;
+    }
+    onRegister(userData);
+  }
 
-  const handleSubmit = useCallback(
-    (e) => {
-      e.preventDefault();
-      const { email, password } = formValue;
-      auth
-        .register(email, password)
-        .then(() => {
-          setTooltipSuccess(true);
-          setInfoTooltipPopupOpen(true);
-          navigate("/sign-in");
-        })
-        .catch((err) => {
-          if (err.status === 400) {
-            setError("Некорректно заполнено одно из полей");
-          } else {
-            setError("Ошибка при регистрации");
-          }
-          setTooltipSuccess(false);
-          setInfoTooltipPopupOpen(true);
-        });
-    },
-    [formValue, navigate, setTooltipSuccess, setInfoTooltipPopupOpen]
-  );
+  function handleChange(evt) {
+    const { name, value } = evt.target;
+    setUserData({
+      ...userData,
+      [name]: value,
+    });
+  }
 
   return (
     <>
-      <div className="login">
-        <p className="login__title">Регистрация</p>
-        {error && <p className="login__error">{error}</p>}
-        <form className="login__form" onSubmit={handleSubmit}>
+      <div className="auth__container">
+        <h2 className="auth__title">Регистрация</h2>
+        <form className="auth__form" onSubmit={handleSubmit} noValidate>
           <input
-            onChange={handleChange}
-            value={formValue.email}
-            className="login__input"
+            name='email'
+            className="auth__input"
             type="email"
-            name="email"
             placeholder="Email"
-            required
+            value={userData.email || ''}
+            onChange={handleChange}
           />
           <input
-            onChange={handleChange}
-            value={formValue.password}
-            className="login__input"
+            name='password'
+            className="auth__input"
             type="password"
-            name="password"
             placeholder="Пароль"
-            required
+            value={userData.password || ''}
+            onChange={handleChange}
           />
-          <button className="login__button">Зарегистрироваться</button>
+          <button className="button auth__submit-button" type="submit">
+            Зарегистрироваться
+          </button>
         </form>
-      </div>
-      <div className="login__sign">
-        <Link to="/sign-in" className="login__sign-link">
+        <Link className="auth__link" to="/sign-in">
           Уже зарегистрированы? Войти
         </Link>
       </div>
     </>
   );
-};
-
-export default Register;
+}

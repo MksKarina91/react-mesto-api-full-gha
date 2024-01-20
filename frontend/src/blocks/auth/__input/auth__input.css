@@ -1,0 +1,20 @@
+.auth__input {
+    padding: 0;
+    margin: 0 auto 26px;
+    color: #fff;
+    background-color: transparent;
+    outline: none;
+    border: 0;
+    border-bottom: 1px solid rgba(204, 204, 204, 1);
+    width: 358px;
+    height: 30px;
+}
+
+.auth__input:last-of-type {
+    margin-bottom: 217px;
+}
+
+.auth__input::placeholder {
+    color: #CCC;
+    font-size: 14px;
+}

@@ -1,30 +1,19 @@
-import icon_ok from "../images/success.svg";
-import icon_cancel from "../images/error.svg";
+import login__failed from '../img/login_failed.svg';
+import login__success from '../img/login_success.svg'
 
-function InfoTooltip(props) {
-  const { isOpen, onClose, isTooltipSuccess, message } = props;
-  const icon = isTooltipSuccess ? icon_ok : icon_cancel;
-
+export default function InfoTooltip({ onClose, isOpen, loginStatus }) {
   return (
-    <div
-      className={`popup ${isOpen ? "popup_opened" : ""} `}
-      onClick={(e) => {
-        if (e.target.classList.contains("popup_opened")) {
-          onClose();
-        }
-      }}
-    >
-      <div className="popup__container popup__succes">
+    <div className={`popup popup_type_info ${isOpen ? "popup_opened" : ""}`}>
+      <div className="popup__container">
         <button
+          className="button popup__close-button"
+          aria-label="Close"
           type="button"
-          className="popup__close-btn"
           onClick={onClose}
         ></button>
-        <img src={icon} alt="Успех" className="popup__img-succes" />
-        <p className="popup__succes-text">{message}</p>
+        <img className="popup__info-image" src={loginStatus ? login__success : login__failed} alt='Статус входа'/>
+        <h2 className='popup__info-title'>{loginStatus ? 'Вы успешно зарегистрировались!' : 'Что-то пошло не так! Попробуйте еще раз.'}</h2>
       </div>
     </div>
   );
 }
-
-export default InfoTooltip;

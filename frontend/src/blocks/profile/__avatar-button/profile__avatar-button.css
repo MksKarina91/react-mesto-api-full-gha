@@ -1,39 +1,27 @@
 .profile__avatar-button {
-    display: flex;
-    border-radius: 50%;
-    width: 120px;
-    height: 120px;
-    border: 0;
-    padding: 0;
-    position: relative;
-}
-
-.profile__avatar-button:hover {
-    opacity: .6;
-    transition: .5s;
-}
-
-.profile__avatar-button:hover::before {
-    opacity: 1;
+  position: relative;
+  margin: 0;
+  padding: 0;
+  outline: none;
+  border: 0;
+  background-color: transparent;
 }
 
 .profile__avatar-button::before {
-    content: '';
-    z-index: 2;
-    width: 120px;
-    height: 120px;
-    position: absolute;
-    margin: 0 30px 0 0;
-    background-image: url(../../../images/avatar_btn.svg);
-    background-color: rgba(0, 0, 0, 0.8);
-    opacity: 0;
-    background-repeat: no-repeat;
-    background-position: center;
-    cursor: pointer;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-image: url("../../../img/pen-sign.svg");
+  background-size: 26px 26px;
+  background-position: center;
+  background-repeat: no-repeat;
+  transition: all .3s;
+  opacity: 0;
+  background-color: rgba(0, 0, 0, 0.8);
+  content: "";
 }
 
-@media screen and (max-width: 767px) {
-    .profile__avatar-button {
-        margin: auto;
-    }
+.profile__avatar-button:hover::before {
+  opacity: 1;
+  cursor: pointer;
 }

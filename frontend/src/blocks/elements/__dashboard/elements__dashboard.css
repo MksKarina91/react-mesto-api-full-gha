@@ -1,0 +1,11 @@
+.elements__dashboard {
+  display: flex;
+  background-color: white;
+  width: 100%;
+}
+
+@media screen and (max-width: 650px) {
+  .elements__dashboard {
+    max-width: 282px;
+  }
+}

@@ -1,26 +1,16 @@
-function ImagePopup(props) {
-    const { name, selectedCard, isOpen, onClose } = props;
-
-    return (
-        < div
-            className={`popup popup-${name} ${isOpen ? 'popup_opened' : ''}`}
-            onClick={(e) => {
-                if (e.target.classList.contains('popup_opened')) {
-                    onClose()
-                }
-            }}>
-            <div className="popup__container">
-                <button className="popup__close-btn" type="button" onClick={onClose}></button>
-                <div className="popup__image-content">
-                    <img className="popup__picture"
-                        src={selectedCard.link}
-                        alt={selectedCard.name}
-                    />
-                    <figcaption className="popup__image-description">{selectedCard.name}</figcaption>
-                </div>
-            </div>
-        </div >
-    )
+export default function ImagePopup({ card, isOpen, onClose }) {
+  return (
+    <div className={`popup popup_type_image ${isOpen ? "popup_opened" : ""}`}>
+      <div className="popup__image-container">
+        <button
+          className="button popup__close-button"
+          aria-label="Close"
+          type="button"
+          onClick={onClose}
+        ></button>
+        <img className="popup__image" alt={card?.name} src={card?.link} />
+        <p className="popup__subtitle">{card ? card.name : ""}</p>
+      </div>
+    </div>
+  );
 }
-
-export default ImagePopup;
