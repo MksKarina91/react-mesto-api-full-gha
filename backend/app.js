@@ -11,7 +11,7 @@ const { ServerErrorHandler } = require('./errors/errorHandlers/ServerErrorHandle
 const { NotFoundErrorHandler } = require('./errors/errorHandlers/NotFoundErrorHandler');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 
-const { PORT = 3000 } = process.env;
+const { PORT = 3001 } = process.env;
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
