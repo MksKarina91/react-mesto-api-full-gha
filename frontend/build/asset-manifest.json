@@ -1,0 +1,26 @@
+{
+  "files": {
+    "main.css": "/static/css/main.e60dc96a.css",
+    "main.js": "/static/js/main.393d8d4d.js",
+    "static/js/787.5530211c.chunk.js": "/static/js/787.5530211c.chunk.js",
+    "static/media/logo.svg": "/static/media/logo.e1792cd1bf55c68d1538deb5b248d425.svg",
+    "static/media/like-button.svg": "/static/media/like-button.87ed371465c7a6a1cd01.svg",
+    "index.html": "/index.html",
+    "static/media/delete-button.svg": "/static/media/delete-button.cbc09a894bdd4c956365.svg",
+    "static/media/login_failed.svg": "/static/media/login_failed.df8eddf661ff88f2d0efd3d570d14309.svg",
+    "static/media/login_success.svg": "/static/media/login_success.1b6082f862eac35e2514460237d96ecc.svg",
+    "static/media/black-like-button.svg": "/static/media/black-like-button.e787eeb70bb65b7b453a.svg",
+    "static/media/add-button-long.svg": "/static/media/add-button-long.6f86ece55e54220c5485.svg",
+    "static/media/add_button.svg": "/static/media/add_button.6f41966c71dd7895857f.svg",
+    "static/media/edit_button.svg": "/static/media/edit_button.a1892ea72cb87c8fc3aa.svg",
+    "static/media/pen-sign.svg": "/static/media/pen-sign.a086f758840ae814ecde.svg",
+    "static/media/popup-close.svg": "/static/media/popup-close.2ceb783afbab75916ddc.svg",
+    "main.e60dc96a.css.map": "/static/css/main.e60dc96a.css.map",
+    "main.393d8d4d.js.map": "/static/js/main.393d8d4d.js.map",
+    "787.5530211c.chunk.js.map": "/static/js/787.5530211c.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.e60dc96a.css",
+    "static/js/main.393d8d4d.js"
+  ]
+}

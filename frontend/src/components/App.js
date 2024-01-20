@@ -74,21 +74,21 @@ function App() {
   }, [token, navigate]);
 
   function handleLogin(dataLogin) {
-    api
-      .authorize(dataLogin)
+    api.authorize(dataLogin)
       .then((dataUser) => {
         setToken(dataUser.token);
         localStorage.setItem("jwt", dataUser.token);
-        setLoginStatus(true);
-        setUserData(dataLogin);
         setIsLoggedIn(true);
         navigate("/");
+        setLoginStatus(true); 
       })
       .catch((err) => {
         console.log(err);
+        setLoginStatus(false); 
         setIsInfoTooltipPopupOpen(true);
       });
   }
+  
 
   function handleRegister(dataRegister) {
     api
