@@ -6,7 +6,7 @@ const {
   NotFoundError,
   InaccurateDataError,
   ConflictError,
-} = require('../errors/errors');
+} = require('../errors');
 const { ERROR_CODE } = require('../utils/constants');
 
 const { NODE_ENV, JWT_SECRET } = process.env;

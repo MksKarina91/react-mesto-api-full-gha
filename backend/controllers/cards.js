@@ -5,7 +5,7 @@ const {
   InaccurateDataError,
   NotFoundError,
   NoPermissionError,
-} = require('../errors/errors');
+} = require('../errors');
 
 module.exports.getCards = (req, res, next) => {
   Card.find({})
