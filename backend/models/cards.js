@@ -6,7 +6,7 @@ const cardSchema = new mongoose.Schema({
     type: String,
     required: [true, 'Поле "name" обязательно для заполнения'],
     minlength: [2, 'Минимальная длина поля "name" - 2'],
-    maxlength: [30, 'Минимальная длина поля "name" - 30'],
+    maxlength: [30, 'Максимальная длина поля "name" - 30'],
   },
   link: {
     type: String,
@@ -17,7 +17,6 @@ const cardSchema = new mongoose.Schema({
       },
       message: 'Некорректный URL',
     },
-
   },
   owner: {
     type: mongoose.Schema.Types.ObjectId,
@@ -31,10 +30,9 @@ const cardSchema = new mongoose.Schema({
       default: [],
     },
   ],
-  createdAt: {
-    type: Date,
-    default: Date.now,
-  },
-}, { versionKey: false });
+}, {
+  versionKey: false,
+  timestamps: true,
+});
 
 module.exports = mongoose.model('card', cardSchema);
