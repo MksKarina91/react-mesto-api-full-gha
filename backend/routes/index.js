@@ -1,14 +1,14 @@
-const routes = require('express').Router();
-const cardsRouter = require('./cards');
-const usersRouter = require('./users');
+const router = require('express').Router();
 const auth = require('../middlewares/auth');
-const { createUser, login } = require('../controllers/users');
-const { loginValidation, createUserValidation } = require('../middlewares/validationJoi');
+const usersRouter = require('./users');
+const cardsRouter = require('./cards');
+const signupRouter = require('./signup');
+const signinRouter = require('./signin');
 
-routes.post('/signin', loginValidation, login);
-routes.post('/signup', createUserValidation, createUser);
+router.use('/signup', signupRouter);
+router.use('/signin', signinRouter);
+router.use(auth);
+router.use('/users', usersRouter);
+router.use('/cards', cardsRouter);
 
-routes.use('/users', auth, usersRouter);
-routes.use('/cards', auth, cardsRouter);
-
-module.exports = routes;
+module.exports = router;

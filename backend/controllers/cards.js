@@ -1,8 +1,8 @@
-const { default: mongoose } = require('mongoose');
+const Card = require('../models/cards');
 const BadRequestError = require('../errors/BadRequestError');
 const NotFoundError = require('../errors/NotFoundError');
 const ForbiddenError = require('../errors/ForbiddenError');
-const Card = require('../models/card');
+const Created = require('../errors/Errors');
 
 module.exports.getCards = (req, res, next) => {
   Card.find({})
@@ -10,15 +10,16 @@ module.exports.getCards = (req, res, next) => {
     .catch((err) => next(err));
 };
 
-module.exports.createCard = (req, res, next) => {
+module.exports.addCard = (req, res, next) => {
   const { name, link } = req.body;
   const owner = req.user._id;
-
   Card.create({ name, link, owner })
-    .then((card) => res.status(201).send(card))
+    .then((card) => {
+      res.status(Created).send(card);
+    })
     .catch((err) => {
-      if (err instanceof mongoose.Error.ValidationError) {
-        next(new BadRequestError('Переданы некорректные данные при создании карточки.'));
+      if (err.name === 'ValidationError') {
+        next(new BadRequestError(err.message));
       } else {
         next(err);
       }
@@ -26,23 +27,22 @@ module.exports.createCard = (req, res, next) => {
 };
 
 module.exports.deleteCard = (req, res, next) => {
-  const { cardId } = req.params;
-  const { _id: userId } = req.user;
-
-  Card.findById(cardId)
+  Card.findById(req.params.cardId)
+    .orFail(new Error('NotFound'))
     .then((card) => {
-      if (!card) {
-        next(new NotFoundError('Передан несуществующий _id карточки.'));
-      } else if (userId !== card.owner.toString()) {
-        next(new ForbiddenError('Невозможно удалить карточку.'));
+      if (card.owner.toString() !== req.user._id) {
+        throw new ForbiddenError('Вы не можете удалять карточку другого пользователя');
       } else {
-        card.deleteOne()
-          .then(() => res.status(200).send({ message: 'Карточка удалена' }));
+        Card.deleteOne(card)
+          .then(() => res.send({ message: 'Карточка успешно удалена' }))
+          .catch((err) => next(err));
       }
     })
     .catch((err) => {
-      if (err instanceof mongoose.Error.CastError) {
-        next(new BadRequestError('Переданы некорректные данные для удаления карточки.'));
+      if (err.name === 'CastError') {
+        next(new BadRequestError('Некорректный id'));
+      } else if (err.message === 'NotFound') {
+        next(new NotFoundError('Карточка по указанному id не найдена'));
       } else {
         next(err);
       }
@@ -50,23 +50,14 @@ module.exports.deleteCard = (req, res, next) => {
 };
 
 module.exports.likeCard = (req, res, next) => {
-  Card.findByIdAndUpdate(
-    req.params.cardId,
-    { $addToSet: { likes: req.user._id } },
-    {
-      new: true,
-    },
-  )
-    .then((card) => {
-      if (!card) {
-        next(new NotFoundError('Передан несуществующий _id карточки.'));
-      } else {
-        res.status(200).send(card);
-      }
-    })
+  Card.findByIdAndUpdate(req.params.cardId, { $addToSet: { likes: req.user._id } }, { new: true })
+    .orFail(new Error('NotFound'))
+    .then((card) => res.send(card))
     .catch((err) => {
-      if (err instanceof mongoose.Error.CastError) {
-        next(new BadRequestError('Переданы некорректные данные для постановки лайка.'));
+      if (err.name === 'CastError') {
+        next(new BadRequestError('Некорректный id'));
+      } else if (err.message === 'NotFound') {
+        next(new NotFoundError('Карточка по указанному id не найдена'));
       } else {
         next(err);
       }
@@ -74,23 +65,14 @@ module.exports.likeCard = (req, res, next) => {
 };
 
 module.exports.dislikeCard = (req, res, next) => {
-  Card.findByIdAndUpdate(
-    req.params.cardId,
-    { $pull: { likes: req.user._id } },
-    {
-      new: true,
-    },
-  )
-    .then((card) => {
-      if (card) {
-        res.send(card);
-      } else {
-        next(new NotFoundError('Передан несуществующий _id карточки.'));
-      }
-    })
+  Card.findByIdAndUpdate(req.params.cardId, { $pull: { likes: req.user._id } }, { new: true })
+    .orFail(new Error('NotFound'))
+    .then((card) => res.send(card))
     .catch((err) => {
       if (err.name === 'CastError') {
-        next(new BadRequestError('Переданы некорректные данные для снятия лайка.'));
+        next(new BadRequestError('Некорректный id'));
+      } else if (err.message === 'NotFound') {
+        next(new NotFoundError('Карточка по указанному id не найдена'));
       } else {
         next(err);
       }
