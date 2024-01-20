@@ -15,7 +15,11 @@ const { PORT = 3000 } = process.env;
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(cors());
+app.use(cors({
+  origin: ['http://localhost:3000', 'https://mkskarina.nomoredomainsmonster.ru'],
+  credentials: true,
+  maxAge: 30,
+}));
 
 mongoose.connect('mongodb://127.0.0.1:27017/mestodb', {
   useNewUrlParser: true,
