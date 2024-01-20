@@ -7,7 +7,6 @@ const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const { errors } = require('celebrate');
 const cors = require('cors');
-const { login, createUser } = require('./controllers/users');
 const NotFoundError = require('./errors/NotFoundError');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 
